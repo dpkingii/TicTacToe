@@ -24,43 +24,6 @@ function Gameboard(){
     return {getBoard,makeMove,printBoard};
 }
 
-function gameController(
-    playerOneName = "Player One",
-    playerTwoName = "Player Two"
-){
-    const board = Gameboard();
-
-    const players = [
-        {
-            name: playerOneName,
-            token: 1
-        },
-        {
-            name: playerTwoName,
-            token: 2
-        }
-    ];
-    
-    let activePlayer = players[0]
-
-    const switchPlayerTurn = () => {
-        activePlayer = activePlayer === player[0] ? player [1] : players[0];
-    };
-    
-    const getActivePlayer = () => activePlayer;
-
-    const printNewRound = () => {
-        board.printBoard();
-        console.log(`${getActivePlayer().name}'s turn.`);
-    };
-
-    
-}
-
-function player(){
-
-}
-
 function Cell() {
     let value = 0;
   
@@ -77,3 +40,54 @@ function Cell() {
       getValue
     };
   }
+
+
+function GameController(
+    playerOneName = "Player One",
+    playerTwoName = "Player Two"
+)  {
+    const board = Gameboard();
+
+    const players = [
+        {
+            name: playerOneName,
+            token: 1
+        },
+        {
+            name: playerTwoName,
+            token: 2
+        }
+    ];
+    
+    let activePlayer = players[0]
+
+    const switchPlayerTurn = () => {
+        activePlayer = activePlayer === players[0] ? players [1] : players[0];
+    };
+    
+    const getActivePlayer = () => activePlayer;
+
+    const printNewRound = () => {
+        board.printBoard();
+        console.log(`${getActivePlayer().name}'s turn.`);
+    };
+
+    const playRound = (row,column) => {
+        console.log(
+            'Marking ${getActivePlayer().name}\'s token into row ${row} column ${column} ...'
+        );
+        board.makeMove(getActivePlayer().token,row,column);
+
+        switchPlayerTurn();
+        printNewRound();
+    };
+
+    printNewRound();
+
+    return{
+        playRound,
+        getActivePlayer
+    };
+}
+
+let test = GameController();
